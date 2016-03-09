@@ -6,7 +6,6 @@ app = Flask(__name__)
 b = pd.read_csv('../brfss2014_short.csv')
 
 # Get rid of special codes like "did not answer" or "don't know"
-# We may want to look into replacing these with the median value or something
 b = b[b.children != 89]
 b = b[b.children != 99]
 b = b[b.sleptim1 != 77]
