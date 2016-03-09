@@ -3,7 +3,7 @@ import numpy as np
 from flask import Flask
 app = Flask(__name__)
 
-b = pd.read_csv('../brfss2014_short.csv')
+b = pd.read_csv('brfss2014_short.csv')
 
 # Get rid of special codes like "did not answer" or "don't know"
 b = b[b.children != 89]
