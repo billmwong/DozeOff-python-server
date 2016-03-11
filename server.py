@@ -2,6 +2,9 @@ import pandas as pd
 import numpy as np
 import os
 from flask import Flask
+import thinkstats2
+import math
+
 app = Flask(__name__)
 
 b = pd.read_csv('brfss2014_short.csv')
@@ -63,27 +66,38 @@ def getSleep(age, sex, married, children, employment):
     df = b.copy()
     df = df[df['sex'] == sex]
     df = df[df['x.ageg5yr'] == getAgeCat(age)]
-    if married:
+    if married == 1:
         df = df[df['marital'] == 1]
     else:
         df = df[df['marital'] != 1]
-    if children:
+    if children == 1:
         df = df[df['children'] != 88]
     else:
         df = df[df['children'] == 88]
     df = df[df['employ1'] == employment]
+    
     print "number in this demographic:",len(df)
     return df['sleptim1'].mean()
 # getSleep(23,1, False, False, 1)
+
+
 
 @app.route("/")
 def hello():
 	return "Hello World!"
 
-@app.route("/api/<int:age>/<int:sex>")
+@app.route("/api/<int:age>/<int:sex>/<int:married>/<int:children>/<int:employment>")
 def showi(age, sex):
-	avgsleep = getSleep(age, sex, False, False, 1)
+	avgsleep = getSleep(age, sex, married, children, employment)
 	return str(avgsleep)
+
+@app.route("/percentaile/<float:hour>")
+def getpercentile(hour):
+    df = b.copy()
+    slpcdf = thinkstats2.Cdf(df.sleptim1)
+    per = slpcdf.PercentileRank(hour)
+    return per
+
 
 if __name__ == "__main__":
 	# app.run(debug=True)
