@@ -2,8 +2,7 @@ import pandas as pd
 import numpy as np
 import os
 from flask import Flask
-import thinkstats2
-import math
+
 
 app = Flask(__name__)
 
@@ -91,12 +90,24 @@ def showi(age, sex):
 	avgsleep = getSleep(age, sex, married, children, employment)
 	return str(avgsleep)
 
-@app.route("/percentaile/<float:hour>")
+@app.route("/percentile/<float:hour>")
 def getpercentile(hour):
-    df = b.copy()
-    slpcdf = thinkstats2.Cdf(df.sleptim1)
-    per = slpcdf.PercentileRank(hour)
-    return per
+    if hour < 4:
+        return 5.27/4*hour
+    elif hour < 5:
+        return 5.27 + (12.88-5.27) * (hour - 4)
+    elif hour < 6:
+        return 12.88 + (34.82-12.88) * (hour - 5)
+    elif hour < 7:  
+        return 34.82 + (58.82 - 34.82) * (hour - 6)
+    elif hour < 8:
+        return 58.82 + (87.75 - 58.82) * (hour - 7)
+    elif hour < 9:
+        return 87.75 + (92.54 - 87.75) * (hour - 8)
+    elif hour < 10:
+        return 92.54 + (95.62 - 92.54) * (hour - 9)
+    elif hour > 10:
+        return 99.6
 
 
 if __name__ == "__main__":
