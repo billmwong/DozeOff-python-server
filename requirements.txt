@@ -2,3 +2,4 @@ pandas==0.15.2
 Flask==0.10.1
 numpy==1.9.1
 matplotlib==1.4.3
+scipy==0.13.3
