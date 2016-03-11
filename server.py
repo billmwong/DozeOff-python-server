@@ -135,7 +135,7 @@ def hello():
 
 @app.route("/api/<int:age>/<int:sex>/<int:married>/<int:children>/<int:employment>")
 @crossdomain(origin='*')
-def showi(age, sex):
+def showi(age, sex, married, children, employment):
 	avgsleep = getSleep(age, sex, married, children, employment)
 	return str(avgsleep)
 
